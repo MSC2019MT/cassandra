@@ -64,6 +64,7 @@ public class TestController {
             employee.setRestaurant(restaurant.get());
         }else{
             employee.setRestaurant(null);
+            employee.setRestaurant(null);
         }
         return employeeRepository.save(employee);
     }
