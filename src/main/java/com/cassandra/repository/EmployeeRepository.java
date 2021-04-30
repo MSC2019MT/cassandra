@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
     public Optional<Employee> getEmployeeById(Long id);
+
+    public Optional<Employee> getEmployeeByUsernameAndPassword(String username,String password);
 }

@@ -77,11 +77,6 @@ public class TestController {
         return employeeRepository.save(employee);
     }
 
-    @PostMapping("/add-restaurant/")
-    public Restaurant addRestaurant(Restaurant restaurant) throws Exception{
-        return restaurantRepository.save(restaurant);
-    }
-
     @PostMapping("/add-customer/")
     public Customer addUser(Customer customer) throws Exception{
         return customerRepository.save(customer);
@@ -95,11 +90,6 @@ public class TestController {
     @PostMapping("/delete-employee/")
     public void deleteEmployee(Long id) throws Exception{
         employeeRepository.deleteById(id);
-    }
-
-    @PostMapping("/delete-restaurant/")
-    public void deleteRestaurant(Long id) throws Exception{
-       restaurantRepository.deleteById(id);
     }
 
     @PostMapping("/delete-customer/")
