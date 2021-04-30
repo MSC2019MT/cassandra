@@ -13,7 +13,7 @@ public class RestuarantLoginBean extends LoginBaseBean {
 
     private Restaurant restaurant;
 
-    private List<RestaurantTableBean> restaurantTableBeanList;
+    private List<TableMaster> tableMasterList;
 
     public Employee getEmployee() {
         return employee;
@@ -31,11 +31,11 @@ public class RestuarantLoginBean extends LoginBaseBean {
         this.restaurant = restaurant;
     }
 
-    public List<RestaurantTableBean> getRestaurantTableBeanList() {
-        return restaurantTableBeanList;
+    public List<TableMaster> getTableMasterList() {
+        return tableMasterList;
     }
 
-    public void setRestaurantTableBeanList(List<RestaurantTableBean> restaurantTableBeanList) {
-        this.restaurantTableBeanList = restaurantTableBeanList;
+    public void setTableMasterList(List<TableMaster> tableMasterList) {
+        this.tableMasterList = tableMasterList;
     }
 }
