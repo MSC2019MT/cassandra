@@ -48,7 +48,6 @@ public class RestaurantItems implements Serializable {
 
     public void setItems(Items items) {
         this.items = items;
-        this.items = items;
     }
 
     public Float getPriceGross() {
