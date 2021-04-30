@@ -13,4 +13,7 @@ public interface TableMasterRepository extends JpaRepository<TableMaster,Long> {
     public Optional<TableMaster> getTableMasterById(Long id);
 
     public Optional<List<TableMaster>> getTableMastersByRestaurant(Restaurant restaurant);
+
+    public Optional<List<TableMaster>> findAllBy();
+
 }

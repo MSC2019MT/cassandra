@@ -14,9 +14,11 @@ public class TableMaster implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "restaurantId",nullable = false)
     private Restaurant restaurant;
+
+    private String status;
 
     public Long getId() {
         return id;
@@ -40,5 +42,13 @@ public class TableMaster implements Serializable {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

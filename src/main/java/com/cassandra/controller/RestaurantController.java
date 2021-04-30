@@ -1,22 +1,22 @@
 package com.cassandra.controller;
 
 import com.cassandra.beans.BaseBean;
-import com.cassandra.beans.RestaurantTableBean;
 import com.cassandra.beans.RestuarantLoginBean;
 import com.cassandra.entities.Employee;
 import com.cassandra.entities.Restaurant;
+import com.cassandra.entities.TableMaster;
 import com.cassandra.repository.EmployeeRepository;
 import com.cassandra.repository.RestaurantRepository;
+import com.cassandra.repository.TableMasterRepository;
 import com.cassandra.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.Table;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +33,9 @@ public class RestaurantController {
     @Autowired
     RestaurantRepository restaurantRepository;
 
+    @Autowired
+    TableMasterRepository tableMasterRepository;
+
 
     @PostMapping("/login-restaurant")
     public RestuarantLoginBean restuarantLogin(RestuarantLoginBean restuarantLoginBean, HttpServletRequest request, BindingResult bindingResult) throws Exception {
@@ -43,11 +46,11 @@ public class RestaurantController {
         Optional<Employee> optionalEmployee = employeeRepository.getEmployeeByUsernameAndPassword(restuarantLoginBean.getUsername(), restuarantLoginBean.getPassword());
         if (optionalEmployee != null && !optionalEmployee.isEmpty()) {
             Employee employee = optionalEmployee.get();
-            List<RestaurantTableBean> restaurantTableBeanList = loginService.getRestaurantTableBeanByRestaurant(employee.getRestaurant());
             restuarantLoginBeanResponse.setStatus("success");
             restuarantLoginBeanResponse.setEmployee(employee);
             restuarantLoginBeanResponse.setRestaurant(employee.getRestaurant());
-            restuarantLoginBeanResponse.setRestaurantTableBeanList(restaurantTableBeanList);
+            Optional<List<TableMaster>> tableMasterList = tableMasterRepository.getTableMastersByRestaurant(employee.getRestaurant());
+            restuarantLoginBeanResponse.setTableMasterList(tableMasterList != null && !tableMasterList.isEmpty() ? tableMasterList.get() : null);
         } else {
             List<String> errorList = new ArrayList<>();
             errorList.add("your credential is wrong please try with other credential.");
@@ -78,14 +81,14 @@ public class RestaurantController {
 
     @PostMapping("/delete-restaurant/")
     public BaseBean deleteRestaurant(Long id) throws Exception {
-        BaseBean baseBean=new BaseBean();
+        BaseBean baseBean = new BaseBean();
         Optional<Restaurant> restaurantOptional = restaurantRepository.getRestaurantById(id);
         if (restaurantOptional != null && !restaurantOptional.isEmpty()) {
             restaurantRepository.delete(restaurantOptional.get());
             baseBean.setStatus("success");
-        }else{
+        } else {
             baseBean.setStatus("error");
-            List<String> errorList=new ArrayList<>();
+            List<String> errorList = new ArrayList<>();
             errorList.add("Don't found restaurant for given id.");
             baseBean.setErrorList(errorList);
         }
