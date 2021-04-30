@@ -18,7 +18,10 @@ public class TableMaster implements Serializable {
     @JoinColumn(name = "restaurantId",nullable = false)
     private Restaurant restaurant;
 
+    @Column(nullable = false)
     private String status;
+
+    private String description;
 
     public Long getId() {
         return id;
@@ -50,5 +53,13 @@ public class TableMaster implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
