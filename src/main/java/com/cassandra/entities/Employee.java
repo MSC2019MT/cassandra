@@ -29,8 +29,9 @@ public class Employee implements Serializable {
     private String state;
     @Column(nullable = false)
     private String country;
-    @Column(nullable = false)
-    private String role;
+    @ManyToOne
+    @JoinColumn(name="roleId",nullable = false)
+    private Role role;
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "restaurantId",nullable = false)
     private Restaurant restaurant;
@@ -115,11 +116,11 @@ public class Employee implements Serializable {
         this.country = country;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

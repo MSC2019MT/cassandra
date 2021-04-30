@@ -46,13 +46,16 @@ public class TestController {
     @Autowired
     OrderItemsRepository orderItemsRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
     @PostMapping("/add-user/")
     public User addUser(User user) throws Exception{
-        Optional<Restaurant> restaurant=restaurantRepository.getRestaurantById(user.getRestaurant()!=null?user.getRestaurant().getId():0l);
-        if(restaurant!=null && !restaurant.isEmpty()){
-            user.setRestaurant(restaurant.get());
+        Optional<Role> role=roleRepository.getRoleById(user.getRole()!=null?user.getRole().getId():0l);
+        if(role!=null && !role.isEmpty()){
+            user.setRole(role.get());
         }else{
-            user.setRestaurant(null);
+            user.setRole(null);
         }
        return userRepository.save(user);
     }
@@ -64,6 +67,12 @@ public class TestController {
             employee.setRestaurant(restaurant.get());
         }else{
             employee.setRestaurant(null);
+        }
+        Optional<Role> role=roleRepository.getRoleById(employee.getRole()!=null?employee.getRole().getId():0l);
+        if(role!=null && !role.isEmpty()){
+            employee.setRole(role.get());
+        }else{
+            employee.setRole(null);
         }
         return employeeRepository.save(employee);
     }
@@ -242,5 +251,15 @@ public class TestController {
     @PostMapping("/delete-visitorder/")
     public void deleteVisitOrder(Long id) throws Exception{
         visitOrderRepository.deleteById(id);
+    }
+
+    @PostMapping("/add-role/")
+    public Role addRole(Role role) throws Exception{
+        return roleRepository.save(role);
+    }
+
+    @PostMapping("/delete-role/")
+    public void deleteRole(Long id) throws Exception{
+        roleRepository.deleteById(id);
     }
 }
