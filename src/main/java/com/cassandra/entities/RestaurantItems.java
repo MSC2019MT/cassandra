@@ -23,8 +23,7 @@ public class RestaurantItems implements Serializable {
 
     private Float priceNet;
 
-    @Column(nullable = false)
-    private Float amount;
+    private Float vat;
 
     public Long getId() {
         return id;
@@ -66,11 +65,11 @@ public class RestaurantItems implements Serializable {
         this.priceNet = priceNet;
     }
 
-    public Float getAmount() {
-        return amount;
+    public Float getVat() {
+        return vat;
     }
 
-    public void setAmount(Float amount) {
-        this.amount = amount;
+    public void setVat(Float vat) {
+        this.vat = vat;
     }
 }
