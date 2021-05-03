@@ -35,6 +35,17 @@ public class Visits implements Serializable {
 
     private String ratingComment;
 
+    @Transient
+    private String comeOrLeave;
+
+    public String getComeOrLeave() {
+        return comeOrLeave;
+    }
+
+    public void setComeOrLeave(String comeOrLeave) {
+        this.comeOrLeave = comeOrLeave;
+    }
+
     public Long getId() {
         return id;
     }

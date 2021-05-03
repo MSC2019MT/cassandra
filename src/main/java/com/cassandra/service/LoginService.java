@@ -23,7 +23,7 @@ public class LoginService {
     TableMasterRepository tableMasterRepository;
 
     @Autowired
-    ItemRepository itemRepository;
+    ItemsRepository itemRepository;
 
     @Autowired
     RestaurantItemsRepository restaurantItemsRepository;

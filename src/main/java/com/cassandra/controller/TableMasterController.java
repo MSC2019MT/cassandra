@@ -1,9 +1,15 @@
 package com.cassandra.controller;
 
 import com.cassandra.beans.BaseBean;
+import com.cassandra.beans.RestaurantItemsBean;
+import com.cassandra.beans.RestaurantTableOrderBean;
+import com.cassandra.entities.OrderItems;
 import com.cassandra.entities.Restaurant;
 import com.cassandra.entities.TableMaster;
+import com.cassandra.entities.Visits;
+import com.cassandra.repository.OrderItemsRepository;
 import com.cassandra.repository.TableMasterRepository;
+import com.cassandra.repository.VisitsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +24,12 @@ public class TableMasterController {
 
     @Autowired
     TableMasterRepository tableMasterRepository;
+
+    @Autowired
+    VisitsRepository visitsRepository;
+
+    @Autowired
+    OrderItemsRepository orderItemsRepository;
 
     @PostMapping("/add-table/")
     public TableMaster addTableMaster(TableMaster tableMaster) throws Exception {
@@ -60,5 +72,31 @@ public class TableMasterController {
             baseBean.setErrorList(errorList);
         }
         return baseBean;
+    }
+
+    @GetMapping("/get-orders-by-table-id-and-restaurant-id/")
+    public RestaurantTableOrderBean getOrdersByTableId(Long tableId, Long restaurantId) throws Exception {
+        RestaurantTableOrderBean restaurantTableOrderBean = new RestaurantTableOrderBean();
+        Optional<TableMaster> optionalTableMaster = tableMasterRepository.getTableMasterById(tableId);
+        if (optionalTableMaster != null && !optionalTableMaster.isEmpty()) {
+            if (optionalTableMaster.get().getStatus() != null && optionalTableMaster.get().getStatus().equalsIgnoreCase("occupied")) {
+                Restaurant restaurant = new Restaurant();
+                restaurant.setId(restaurantId);
+                Optional<Visits> visits = visitsRepository.findTopByRestaurantAndTableMasterOrderByFromDateTimeDesc(restaurant, optionalTableMaster.get());
+                Optional<List<RestaurantItemsBean>> optionalRestaurantItemsBeans = orderItemsRepository.getOrderItemsByVisitId(visits.get().getId());
+                restaurantTableOrderBean.setTableMaster(optionalTableMaster.get());
+                Float total = 0f;
+                if (optionalRestaurantItemsBeans != null && !optionalRestaurantItemsBeans.isEmpty() && optionalRestaurantItemsBeans.get() != null && !optionalRestaurantItemsBeans.get().isEmpty()) {
+                    for (RestaurantItemsBean restaurantItemsBean : optionalRestaurantItemsBeans.get()) {
+                        restaurantItemsBean.setItemWiseTotal(restaurantItemsBean.getPriceNet() * restaurantItemsBean.getQuantities());
+                        total = total + restaurantItemsBean.getItemWiseTotal();
+                    }
+                }
+                restaurantTableOrderBean.setTotal(total);
+                restaurantTableOrderBean.setRestaurantItemsBeanList(optionalRestaurantItemsBeans.get());
+                return restaurantTableOrderBean;
+            }
+        }
+        return null;
     }
 }
