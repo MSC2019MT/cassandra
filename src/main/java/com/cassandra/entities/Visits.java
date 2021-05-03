@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="c_visits")
+@Table(name = "c_visits")
 public class Visits implements Serializable {
 
     @Id
@@ -13,15 +13,15 @@ public class Visits implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "restaurantId",nullable = false)
+    @JoinColumn(name = "restaurantId", nullable = false)
     private Restaurant restaurant;
 
     @ManyToOne
-    @JoinColumn(name = "customerId",nullable = false)
+    @JoinColumn(name = "customerId", nullable = false)
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "tableId",nullable = false)
+    @JoinColumn(name = "tableId", nullable = false)
     private TableMaster tableMaster;
 
     @Column(nullable = false)
@@ -34,6 +34,17 @@ public class Visits implements Serializable {
     private Float rating;
 
     private String ratingComment;
+
+    @Transient
+    private String comeOrLeave;
+
+    public String getComeOrLeave() {
+        return comeOrLeave;
+    }
+
+    public void setComeOrLeave(String comeOrLeave) {
+        this.comeOrLeave = comeOrLeave;
+    }
 
     public Long getId() {
         return id;

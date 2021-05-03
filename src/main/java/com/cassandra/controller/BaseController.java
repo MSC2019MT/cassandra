@@ -1,14 +1,15 @@
-package com.cassandra.service;
+package com.cassandra.controller;
 
 import com.cassandra.repository.*;
+import com.cassandra.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 
-@Service
-public class LoginService {
+@ControllerAdvice
+public class BaseController {
 
     @Autowired
-    CustomerRepository customerRepository;
+    LoginService loginService;
 
     @Autowired
     EmployeeRepository employeeRepository;
@@ -17,13 +18,13 @@ public class LoginService {
     RestaurantRepository restaurantRepository;
 
     @Autowired
-    UserRepository userRepository;
-
-    @Autowired
     TableMasterRepository tableMasterRepository;
 
     @Autowired
-    ItemsRepository itemRepository;
+    CustomerRepository customerRepository;
+
+    @Autowired
+    ItemsRepository itemsRepository;
 
     @Autowired
     RestaurantItemsRepository restaurantItemsRepository;
@@ -39,8 +40,4 @@ public class LoginService {
 
     @Autowired
     OrderItemsRepository orderItemsRepository;
-
-    @Autowired
-    RoleRepository roleRepository;
-
 }

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="c_restaurant",uniqueConstraints = @UniqueConstraint(name="unique_name", columnNames = {"name"}))
+@Table(name = "c_restaurant", uniqueConstraints = @UniqueConstraint(name = "unique_name", columnNames = {"name"}))
 public class Restaurant implements Serializable {
 
     @Id

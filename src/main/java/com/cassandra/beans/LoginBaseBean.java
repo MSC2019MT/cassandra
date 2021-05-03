@@ -2,7 +2,7 @@ package com.cassandra.beans;
 
 import javax.validation.constraints.NotNull;
 
-public class LoginBaseBean extends BaseBean{
+public class LoginBaseBean extends BaseBean {
 
     @NotNull(message = "please enter username")
     private String username;

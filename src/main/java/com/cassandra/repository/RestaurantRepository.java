@@ -3,10 +3,12 @@ package com.cassandra.repository;
 import com.cassandra.entities.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface RestaurantRepository extends JpaRepository<Restaurant,Long> {
+@Transactional
+public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     public Optional<Restaurant> getRestaurantById(Long id);
 

@@ -1,13 +1,10 @@
 package com.cassandra.entities;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="c_user",uniqueConstraints = @UniqueConstraint(name="unique_username", columnNames = {"username"}))
+@Table(name = "c_user", uniqueConstraints = @UniqueConstraint(name = "unique_username", columnNames = {"username"}))
 public class User implements Serializable {
 
     @Id
@@ -33,7 +30,7 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String country;
     @ManyToOne
-    @JoinColumn(name="roleId",nullable = false)
+    @JoinColumn(name = "roleId", nullable = false)
     private Role role;
 
     public Long getId() {
