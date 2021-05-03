@@ -1,5 +1,6 @@
 package com.cassandra.beans;
 
+import com.cassandra.entities.Customer;
 import com.cassandra.entities.Orders;
 import com.cassandra.entities.Restaurant;
 import com.cassandra.entities.TableMaster;
@@ -11,8 +12,8 @@ public class RestaurantTableOrderBean {
     private TableMaster tableMaster;
     private Restaurant restaurant;
     private List<RestaurantItemsBean> restaurantItemsBeanList;
-    private Orders orders;
     private Float total;
+    private Customer customer;
 
     public Float getTotal() {
         return total;
@@ -46,11 +47,11 @@ public class RestaurantTableOrderBean {
         this.restaurantItemsBeanList = restaurantItemsBeanList;
     }
 
-    public Orders getOrders() {
-        return orders;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setOrders(Orders orders) {
-        this.orders = orders;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

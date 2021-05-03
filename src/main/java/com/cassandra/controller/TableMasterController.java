@@ -84,16 +84,17 @@ public class TableMasterController {
                 restaurant.setId(restaurantId);
                 Optional<Visits> visits = visitsRepository.findTopByRestaurantAndTableMasterOrderByFromDateTimeDesc(restaurant, optionalTableMaster.get());
                 Optional<List<RestaurantItemsBean>> optionalRestaurantItemsBeans = orderItemsRepository.getOrderItemsByVisitId(visits.get().getId());
-                restaurantTableOrderBean.setTableMaster(optionalTableMaster.get());
                 Float total = 0f;
                 if (optionalRestaurantItemsBeans != null && !optionalRestaurantItemsBeans.isEmpty() && optionalRestaurantItemsBeans.get() != null && !optionalRestaurantItemsBeans.get().isEmpty()) {
                     for (RestaurantItemsBean restaurantItemsBean : optionalRestaurantItemsBeans.get()) {
                         restaurantItemsBean.setItemWiseTotal(restaurantItemsBean.getPriceNet() * restaurantItemsBean.getQuantities());
                         total = total + restaurantItemsBean.getItemWiseTotal();
                     }
+                    restaurantTableOrderBean.setRestaurantItemsBeanList(optionalRestaurantItemsBeans.get());
+                    restaurantTableOrderBean.setTotal(total);
                 }
-                restaurantTableOrderBean.setTotal(total);
-                restaurantTableOrderBean.setRestaurantItemsBeanList(optionalRestaurantItemsBeans.get());
+                restaurantTableOrderBean.setTableMaster(optionalTableMaster.get());
+                restaurantTableOrderBean.setCustomer(visits.get().getCustomer());
                 return restaurantTableOrderBean;
             }
         }
