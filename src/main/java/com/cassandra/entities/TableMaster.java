@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="c_tablemaster")
+@Table(name = "c_tablemaster")
 public class TableMaster implements Serializable {
 
     @Id
@@ -15,7 +15,7 @@ public class TableMaster implements Serializable {
     private String name;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "restaurantId",nullable = false)
+    @JoinColumn(name = "restaurantId", nullable = false)
     private Restaurant restaurant;
 
     @Column(nullable = false)

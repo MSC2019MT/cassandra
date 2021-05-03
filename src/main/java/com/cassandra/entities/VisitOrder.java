@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="c_visitorders")
+@Table(name = "c_visitorders")
 public class VisitOrder implements Serializable {
 
     @Id
@@ -12,11 +12,11 @@ public class VisitOrder implements Serializable {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "visitId",nullable = false)
+    @JoinColumn(name = "visitId", nullable = false)
     private Visits visits;
 
     @ManyToOne
-    @JoinColumn(name = "orderId",nullable = false)
+    @JoinColumn(name = "orderId", nullable = false)
     private Orders orders;
 
     public Long getId() {

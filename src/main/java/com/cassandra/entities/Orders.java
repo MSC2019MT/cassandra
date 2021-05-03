@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="c_orders")
+@Table(name = "c_orders")
 public class Orders implements Serializable {
 
     @Id

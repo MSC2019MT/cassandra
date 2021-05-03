@@ -1,7 +1,6 @@
 package com.cassandra.beans;
 
 import com.cassandra.entities.Customer;
-import com.cassandra.entities.Orders;
 import com.cassandra.entities.Restaurant;
 import com.cassandra.entities.TableMaster;
 

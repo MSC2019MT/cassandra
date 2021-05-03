@@ -2,8 +2,6 @@ package com.cassandra.controller;
 
 import com.cassandra.beans.BaseBean;
 import com.cassandra.entities.Visits;
-import com.cassandra.repository.VisitsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,10 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class VisitsController {
-
-    @Autowired
-    VisitsRepository visitsRepository;
+public class VisitsController extends BaseController {
 
     @PostMapping("/add-visit/")
     public Visits addVisits(Visits visits) throws Exception {

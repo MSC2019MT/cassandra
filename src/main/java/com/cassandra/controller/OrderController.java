@@ -2,8 +2,6 @@ package com.cassandra.controller;
 
 import com.cassandra.beans.BaseBean;
 import com.cassandra.entities.Orders;
-import com.cassandra.repository.OrdersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,10 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class OrderController {
-
-    @Autowired
-    OrdersRepository ordersRepository;
+public class OrderController extends BaseController {
 
     @PostMapping("/add-order/")
     public Orders addOrders(Orders orders) throws Exception {

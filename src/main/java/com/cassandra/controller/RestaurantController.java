@@ -5,37 +5,18 @@ import com.cassandra.beans.RestuarantLoginBean;
 import com.cassandra.entities.Employee;
 import com.cassandra.entities.Restaurant;
 import com.cassandra.entities.TableMaster;
-import com.cassandra.repository.EmployeeRepository;
-import com.cassandra.repository.RestaurantRepository;
-import com.cassandra.repository.TableMasterRepository;
-import com.cassandra.service.LoginService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.Table;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class RestaurantController {
-
-    @Autowired
-    LoginService loginService;
-
-    @Autowired
-    EmployeeRepository employeeRepository;
-
-    @Autowired
-    RestaurantRepository restaurantRepository;
-
-    @Autowired
-    TableMasterRepository tableMasterRepository;
-
+public class RestaurantController extends BaseController {
 
     @PostMapping("/login-restaurant")
     public RestuarantLoginBean restuarantLogin(RestuarantLoginBean restuarantLoginBean, HttpServletRequest request, BindingResult bindingResult) throws Exception {
@@ -65,7 +46,7 @@ public class RestaurantController {
         return restaurantRepository.save(restaurant);
     }
 
-    @GetMapping("/get-restaurant-by-id/")
+    @PostMapping("/get-restaurant-by-id/")
     public Restaurant getRestaurantById(Long id) throws Exception {
         Optional<Restaurant> restaurantOptional = restaurantRepository.getRestaurantById(id);
         return restaurantOptional != null && !restaurantOptional.isEmpty() ? restaurantOptional.get() : null
@@ -84,6 +65,19 @@ public class RestaurantController {
         BaseBean baseBean = new BaseBean();
         Optional<Restaurant> restaurantOptional = restaurantRepository.getRestaurantById(id);
         if (restaurantOptional != null && !restaurantOptional.isEmpty()) {
+            Optional<List<Long>> visitIdListOptional = visitsRepository.getIdListByRestaurantId(restaurantOptional.get().getId());
+            if (visitIdListOptional != null && !visitIdListOptional.isEmpty() && visitIdListOptional.get() != null && !visitIdListOptional.get().isEmpty()) {
+                Optional<List<Long>> orderIdList = visitOrderRepository.getOrderIdListByVisitIdList(visitIdListOptional.get());
+                if (orderIdList != null && !orderIdList.isEmpty() && orderIdList.get() != null && !orderIdList.get().isEmpty()) {
+                    orderItemsRepository.deleteAllByOrderIdList(orderIdList.get());
+                    ordersRepository.deleteAllByIdList(orderIdList.get());
+                }
+                visitOrderRepository.deleteAllVisitOrderByVisitsId(visitIdListOptional.get());
+            }
+            visitsRepository.deleteAllByRestaurant(restaurantOptional.get());
+            restaurantItemsRepository.deleteAllByRestaurant(restaurantOptional.get());
+            tableMasterRepository.deleteAllByRestaurant(restaurantOptional.get());
+            employeeRepository.deleteAllByRestaurant(restaurantOptional.get());
             restaurantRepository.delete(restaurantOptional.get());
             baseBean.setStatus("success");
         } else {

@@ -2,12 +2,9 @@ package com.cassandra.controller;
 
 import com.cassandra.beans.BaseBean;
 import com.cassandra.beans.RestaurantItemsBean;
-import com.cassandra.entities.Restaurant;
 import com.cassandra.entities.Items;
+import com.cassandra.entities.Restaurant;
 import com.cassandra.entities.RestaurantItems;
-import com.cassandra.repository.ItemsRepository;
-import com.cassandra.repository.RestaurantItemsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,13 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class ItemsController {
-
-    @Autowired
-    ItemsRepository itemsRepository;
-
-    @Autowired
-    RestaurantItemsRepository restaurantItemsRepository;
+public class ItemsController extends BaseController {
 
     @PostMapping("/add-item/")
     public Items addItems(Items items) throws Exception {
