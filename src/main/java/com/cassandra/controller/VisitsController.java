@@ -31,7 +31,7 @@ public class VisitsController extends BaseController {
         return visitsRepository.save(visits);
     }
 
-    @GetMapping("/get-visit-by-id/")
+    @PostMapping("/get-visit-by-id/")
     public Visits getVisitsById(Long id) throws Exception {
         Optional<Visits> visitsOptional = visitsRepository.getVisitsById(id);
         return visitsOptional != null && !visitsOptional.isEmpty() ? visitsOptional.get() : null
@@ -50,6 +50,12 @@ public class VisitsController extends BaseController {
         BaseBean baseBean = new BaseBean();
         Optional<Visits> visitsOptional = visitsRepository.getVisitsById(id);
         if (visitsOptional != null && !visitsOptional.isEmpty()) {
+            Optional<List<Long>> orderIdList = visitOrderRepository.getOrderIdListByVisitId(visitsOptional.get().getId());
+            if (orderIdList != null && !orderIdList.isEmpty() && orderIdList.get() != null && !orderIdList.get().isEmpty()) {
+                orderItemsRepository.deleteAllByOrderIdList(orderIdList.get());
+                ordersRepository.deleteAllByIdList(orderIdList.get());
+            }
+            visitOrderRepository.deleteAllVisitOrderByVisitsId(visitsOptional.get().getId());
             visitsRepository.delete(visitsOptional.get());
             baseBean.setStatus("success");
         } else {

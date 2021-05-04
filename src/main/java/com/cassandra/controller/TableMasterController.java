@@ -56,7 +56,7 @@ public class TableMasterController extends BaseController {
                     orderItemsRepository.deleteAllByOrderIdList(orderIdList.get());
                     ordersRepository.deleteAllByIdList(orderIdList.get());
                 }
-                visitOrderRepository.deleteAllVisitOrderByVisitsId(visitIdListOptional.get());
+                visitOrderRepository.deleteAllVisitOrderByVisitsIdList(visitIdListOptional.get());
             }
             visitsRepository.deleteAllByTableMaster(tableMasterOptional.get());
             tableMasterRepository.delete(tableMasterOptional.get());
