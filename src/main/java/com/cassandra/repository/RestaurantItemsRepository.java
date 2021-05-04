@@ -12,7 +12,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Transactionals
+@Transactional
 public interface RestaurantItemsRepository extends JpaRepository<RestaurantItems, Long> {
 
     public Optional<RestaurantItems> getRestaurantItemsById(Long id);

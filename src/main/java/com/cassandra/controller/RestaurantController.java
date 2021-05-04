@@ -72,7 +72,7 @@ public class RestaurantController extends BaseController {
                     orderItemsRepository.deleteAllByOrderIdList(orderIdList.get());
                     ordersRepository.deleteAllByIdList(orderIdList.get());
                 }
-                visitOrderRepository.deleteAllVisitOrderByVisitsId(visitIdListOptional.get());
+                visitOrderRepository.deleteAllVisitOrderByVisitsIdList(visitIdListOptional.get());
             }
             visitsRepository.deleteAllByRestaurant(restaurantOptional.get());
             restaurantItemsRepository.deleteAllByRestaurant(restaurantOptional.get());

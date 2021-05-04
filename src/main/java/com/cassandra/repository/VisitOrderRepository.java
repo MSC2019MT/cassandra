@@ -19,5 +19,13 @@ public interface VisitOrderRepository extends JpaRepository<VisitOrder, Long> {
 
     @Modifying
     @Query("delete from VisitOrder where visits.id in :visitIdList")
-    public void deleteAllVisitOrderByVisitsId(List<Long> visitIdList);
+    public void deleteAllVisitOrderByVisitsIdList(List<Long> visitIdList);
+
+    @Query("Select vo.orders.id from VisitOrder vo where vo.visits.id = :visitId")
+    public Optional<List<Long>> getOrderIdListByVisitId(Long visitId);
+
+    @Modifying
+    @Query("delete from VisitOrder where visits.id = :visitId")
+    public void deleteAllVisitOrderByVisitsId(Long visitId);
+
 }
