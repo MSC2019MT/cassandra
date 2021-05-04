@@ -28,4 +28,8 @@ public interface VisitOrderRepository extends JpaRepository<VisitOrder, Long> {
     @Query("delete from VisitOrder where visits.id = :visitId")
     public void deleteAllVisitOrderByVisitsId(Long visitId);
 
+    @Modifying
+    @Query("delete from VisitOrder vo where vo.orders.id = :orderId")
+    public void deleteAllByOrderId(Long orderId);
+
 }

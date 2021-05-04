@@ -21,7 +21,7 @@ public class ItemsController extends BaseController {
         return itemsRepository.save(items);
     }
 
-    @GetMapping("/get-item-by-id/")
+    @PostMapping("/get-item-by-id/")
     public Items getItemsById(Long id) throws Exception {
         Optional<Items> itemsOptional = itemsRepository.getItemsById(id);
         return itemsOptional != null && !itemsOptional.isEmpty() ? itemsOptional.get() : null
@@ -34,7 +34,7 @@ public class ItemsController extends BaseController {
         return itemsOptionalList != null && !itemsOptionalList.isEmpty() ? itemsOptionalList.get() : null;
     }
 
-    @GetMapping("/get-all-item-by-restaurant-id/")
+    @PostMapping("/get-all-item-by-restaurant-id/")
     public List<RestaurantItemsBean> getAllItemsByRestaurant(Long restaurantId) throws Exception {
         Restaurant restaurant = new Restaurant();
         restaurant.setId(restaurantId);
@@ -47,6 +47,8 @@ public class ItemsController extends BaseController {
         BaseBean baseBean = new BaseBean();
         Optional<Items> itemsOptional = itemsRepository.getItemsById(id);
         if (itemsOptional != null && !itemsOptional.isEmpty()) {
+            orderItemsRepository.deleteAllByItems(itemsOptional.get());
+            restaurantItemsRepository.deleteAllByItems(itemsOptional.get());
             itemsRepository.delete(itemsOptional.get());
             baseBean.setStatus("success");
         } else {
@@ -75,6 +77,7 @@ public class ItemsController extends BaseController {
         BaseBean baseBean = new BaseBean();
         Optional<RestaurantItems> restaurantItemsOptional = restaurantItemsRepository.getRestaurantItemsByRestaurantAndItems(restaurantItems.getRestaurant(), restaurantItems.getItems());
         if (restaurantItemsOptional != null && !restaurantItemsOptional.isEmpty()) {
+            orderItemsRepository.deleteAllByItems(restaurantItemsOptional.get().getItems());
             restaurantItemsRepository.delete(restaurantItemsOptional.get());
             baseBean.setStatus("success");
         } else {

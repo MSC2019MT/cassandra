@@ -1,6 +1,7 @@
 package com.cassandra.repository;
 
 import com.cassandra.beans.RestaurantItemsBean;
+import com.cassandra.entities.Items;
 import com.cassandra.entities.OrderItems;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -22,5 +23,11 @@ public interface OrderItemsRepository extends JpaRepository<OrderItems, Long> {
     @Modifying
     @Query("delete from OrderItems oi where oi.orders.id in :orderIdList")
     public void deleteAllByOrderIdList(@Param("orderIdList") List<Long> orderIdList);
+
+    public void deleteAllByItems(Items items);
+
+    @Modifying
+    @Query("delete from OrderItems oi where oi.orders.id = :orderId")
+    public void deleteAllByOrderId(Long orderId);
 
 }

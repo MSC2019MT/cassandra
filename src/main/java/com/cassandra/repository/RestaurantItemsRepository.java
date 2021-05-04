@@ -23,4 +23,7 @@ public interface RestaurantItemsRepository extends JpaRepository<RestaurantItems
     public Optional<RestaurantItems> getRestaurantItemsByRestaurantAndItems(Restaurant restaurant, Items items);
 
     public void deleteAllByRestaurant(Restaurant restaurant);
+
+    public void deleteAllByItems(Items items);
+
 }
