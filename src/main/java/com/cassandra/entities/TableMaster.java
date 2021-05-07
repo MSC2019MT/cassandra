@@ -23,6 +23,16 @@ public class TableMaster implements Serializable {
 
     private String description;
 
+    private String qrCodeDetails;
+
+    public String getQrCodeDetails() {
+        return qrCodeDetails;
+    }
+
+    public void setQrCodeDetails(String qrCodeDetails) {
+        this.qrCodeDetails = qrCodeDetails;
+    }
+
     public Long getId() {
         return id;
     }
