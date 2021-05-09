@@ -44,7 +44,7 @@ public class CustomerController extends BaseController {
         return customerRepository.save(customer);
     }
 
-    @PostMapping("/get-customer-by-id/")
+    @GetMapping("/get-customer-by-id/")
     public Customer getCustomerById(Long id) throws Exception {
         Optional<Customer> customerOptional = customerRepository.getCustomerById(id);
         return customerOptional != null && !customerOptional.isEmpty() ? customerOptional.get() : null;
