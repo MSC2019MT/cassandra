@@ -2,9 +2,7 @@ package com.cassandra.controller;
 
 import com.cassandra.beans.BaseBean;
 import com.cassandra.entities.Visits;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -15,8 +13,8 @@ import java.util.Optional;
 @RestController
 public class VisitsController extends BaseController {
 
-    @PostMapping("/add-visit/")
-    public Visits addVisits(Visits visits) throws Exception {
+    @PostMapping(value = "/add-visit/", produces = "application/json", consumes = "application/json")
+    public Visits addVisits(@RequestBody Visits visits) throws Exception {
         if (visits.getId() != null) {
             Optional<Visits> visitsOptional = visitsRepository.getVisitsById(visits.getId());
             if (visitsOptional != null && !visitsOptional.isEmpty()) {
@@ -25,28 +23,28 @@ public class VisitsController extends BaseController {
         }
         if (visits.getComeOrLeave() != null && visits.getComeOrLeave().equals("come")) {
             visits.setFromDateTime(new Timestamp(new Date().getTime()));
-        } else {
+        } else if (visits.getComeOrLeave() != null && visits.getComeOrLeave().equals("leave")) {
             visits.setToDateTime(new Timestamp(new Date().getTime()));
         }
         return visitsRepository.save(visits);
     }
 
-    @PostMapping("/get-visit-by-id/")
-    public Visits getVisitsById(Long id) throws Exception {
+    @GetMapping(value = "/get-visit/{id}", produces = "application/json")
+    public Visits getVisitsById(@PathVariable("id") Long id) throws Exception {
         Optional<Visits> visitsOptional = visitsRepository.getVisitsById(id);
         return visitsOptional != null && !visitsOptional.isEmpty() ? visitsOptional.get() : null
                 ;
     }
 
-    @GetMapping("/get-all-visits/")
+    @GetMapping(value = "/get-all-visit/", produces = "application/json")
     public List<Visits> getAllVisits() throws Exception {
         Optional<List<Visits>> visitsOptionalList = visitsRepository.findAllBy();
         return visitsOptionalList != null && !visitsOptionalList.isEmpty() ? visitsOptionalList.get() : null
                 ;
     }
 
-    @PostMapping("/delete-visits/")
-    public BaseBean deleteVisits(Long id) throws Exception {
+    @DeleteMapping(value = "/delete-visit/{id}", produces = "application/json")
+    public BaseBean deleteVisits(@PathVariable("id") Long id) throws Exception {
         BaseBean baseBean = new BaseBean();
         Optional<Visits> visitsOptional = visitsRepository.getVisitsById(id);
         if (visitsOptional != null && !visitsOptional.isEmpty()) {

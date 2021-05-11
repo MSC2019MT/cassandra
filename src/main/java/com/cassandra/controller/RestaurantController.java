@@ -6,9 +6,7 @@ import com.cassandra.entities.Employee;
 import com.cassandra.entities.Restaurant;
 import com.cassandra.entities.TableMaster;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -41,27 +39,48 @@ public class RestaurantController extends BaseController {
         return restuarantLoginBeanResponse;
     }
 
-    @PostMapping("/add-restaurant/")
-    public Restaurant addRestaurant(Restaurant restaurant) throws Exception {
+    @PostMapping(value = "/add-restaurant/", produces = "application/json", consumes = "application/json")
+    public Object addRestaurant(@RequestBody Restaurant restaurant) throws Exception {
+        if (restaurant.getId() != null) {
+            Optional<Restaurant> res = restaurantRepository.findTopByNameAndIdNot(restaurant.getName(), restaurant.getId());
+            if (res != null && !res.isEmpty()) {
+                BaseBean baseBean = new BaseBean();
+                List<String> errorList = new ArrayList<String>();
+                errorList.add("Restaurant is already exists");
+                baseBean.setStatus("error");
+                baseBean.setErrorList(errorList);
+                return baseBean;
+            }
+        } else {
+            Optional<Restaurant> res = restaurantRepository.findTopByName(restaurant.getName());
+            if (res != null && !res.isEmpty()) {
+                BaseBean baseBean = new BaseBean();
+                List<String> errorList = new ArrayList<String>();
+                errorList.add("Restaurant is already exists");
+                baseBean.setStatus("error");
+                baseBean.setErrorList(errorList);
+                return baseBean;
+            }
+        }
         return restaurantRepository.save(restaurant);
     }
 
-    @PostMapping("/get-restaurant-by-id/")
-    public Restaurant getRestaurantById(Long id) throws Exception {
+    @GetMapping(value = "/get-restaurant/{id}", produces = "application/json")
+    public Restaurant getRestaurantById(@PathVariable("id") Long id) throws Exception {
         Optional<Restaurant> restaurantOptional = restaurantRepository.getRestaurantById(id);
         return restaurantOptional != null && !restaurantOptional.isEmpty() ? restaurantOptional.get() : null
                 ;
     }
 
-    @GetMapping("/get-all-restaurant/")
+    @GetMapping(value = "/get-all-restaurant/", produces = "application/json")
     public List<Restaurant> getAllRestaurant() throws Exception {
         Optional<List<Restaurant>> restaurantOptionalList = restaurantRepository.findAllBy();
         return restaurantOptionalList != null && !restaurantOptionalList.isEmpty() ? restaurantOptionalList.get() : null
                 ;
     }
 
-    @PostMapping("/delete-restaurant/")
-    public BaseBean deleteRestaurant(Long id) throws Exception {
+    @DeleteMapping(value = "/delete-restaurant/{id}", produces = "application/json")
+    public BaseBean deleteRestaurant(@PathVariable("id") Long id) throws Exception {
         BaseBean baseBean = new BaseBean();
         Optional<Restaurant> restaurantOptional = restaurantRepository.getRestaurantById(id);
         if (restaurantOptional != null && !restaurantOptional.isEmpty()) {

@@ -6,9 +6,7 @@ import com.cassandra.beans.RestaurantTableOrderBean;
 import com.cassandra.entities.Restaurant;
 import com.cassandra.entities.TableMaster;
 import com.cassandra.entities.Visits;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,35 +15,26 @@ import java.util.Optional;
 @RestController
 public class TableMasterController extends BaseController {
 
-    @PostMapping("/add-table/")
-    public TableMaster addTableMaster(TableMaster tableMaster) throws Exception {
+    @PostMapping(value = "/add-table/", produces = "application/json", consumes = "application/json")
+    public TableMaster addTableMaster(@RequestBody TableMaster tableMaster) throws Exception {
         return tableMasterRepository.save(tableMaster);
     }
 
-    @PostMapping("/get-table-by-id/")
-    public TableMaster getTableMasterById(Long id) throws Exception {
+    @GetMapping(value = "/get-table/{id}", produces = "application/json")
+    public TableMaster getTableMasterById(@PathVariable("id") Long id) throws Exception {
         Optional<TableMaster> tableMasterOptional = tableMasterRepository.getTableMasterById(id);
         return tableMasterOptional != null && !tableMasterOptional.isEmpty() ? tableMasterOptional.get() : null
                 ;
     }
 
-    @GetMapping("/get-all-table/")
+    @GetMapping(value = "/get-all-table/", produces = "application/json")
     public List<TableMaster> getAllTableMaster() throws Exception {
         Optional<List<TableMaster>> tableMasterOptionalList = tableMasterRepository.findAllBy();
         return tableMasterOptionalList != null && !tableMasterOptionalList.isEmpty() ? tableMasterOptionalList.get() : null;
     }
 
-    @PostMapping("/get-all-table-by-restaurant-id/")
-    public List<TableMaster> getAllTableMasterByRestaurant(Long restaurantId) throws Exception {
-        Restaurant restaurant = new Restaurant();
-        restaurant.setId(restaurantId);
-        Optional<List<TableMaster>> tableMasterOptionalList = tableMasterRepository.getTableMastersByRestaurant(restaurant);
-        return tableMasterOptionalList != null && !tableMasterOptionalList.isEmpty() ? tableMasterOptionalList.get() : null
-                ;
-    }
-
-    @PostMapping("/delete-table/")
-    public BaseBean deleteTableMaster(Long id) throws Exception {
+    @DeleteMapping(value = "/delete-table/{id}", produces = "application/json")
+    public BaseBean deleteTableMaster(@PathVariable("id") Long id) throws Exception {
         BaseBean baseBean = new BaseBean();
         Optional<TableMaster> tableMasterOptional = tableMasterRepository.getTableMasterById(id);
         if (tableMasterOptional != null && !tableMasterOptional.isEmpty()) {
