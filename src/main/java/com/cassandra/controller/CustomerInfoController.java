@@ -19,6 +19,7 @@ public class CustomerInfoController extends BaseController {
     @GetMapping("/get-customer-dashboard/{id}")
     public CustomerDashBoardBean getCustomerDashBoardByCustomerId(@PathVariable("id") Long customerId) throws Exception {
         CustomerDashBoardBean customerDashBoardBean = new CustomerDashBoardBean();
+        System.out.println("test");
         String startDateTime = getCurrentMonthStartDateTimeStr();
         String endDateTime = getCurrentMonthEndDateTimeStr();
         List<Object[]> objArrList = visitsRepository.getCustomerCurrentMonthAndRestaurantDetailsByCustomerId(customerId, startDateTime, endDateTime);
