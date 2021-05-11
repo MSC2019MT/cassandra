@@ -1,10 +1,13 @@
 package com.cassandra.entities;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name="c_employee",uniqueConstraints = @UniqueConstraint(name="unique_username", columnNames = {"username"}))
+@Table(name = "c_employee", uniqueConstraints = @UniqueConstraint(name = "unique_username", columnNames = {"username"}))
 public class Employee implements Serializable {
 
     @Id
@@ -18,7 +21,8 @@ public class Employee implements Serializable {
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
-    private String name;
+    private String firstName;
+    private String surName;
     @Column(nullable = false)
     private String address;
     @Column(nullable = false)
@@ -30,10 +34,12 @@ public class Employee implements Serializable {
     @Column(nullable = false)
     private String country;
     @ManyToOne
-    @JoinColumn(name="roleId",nullable = false)
+    @JoinColumn(name = "roleId", nullable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Role role;
     @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "restaurantId",nullable = false)
+    @JoinColumn(name = "restaurantId", nullable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Restaurant restaurant;
 
     public Long getId() {
@@ -68,12 +74,20 @@ public class Employee implements Serializable {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSurName() {
+        return surName;
+    }
+
+    public void setSurName(String surName) {
+        this.surName = surName;
     }
 
     public String getAddress() {

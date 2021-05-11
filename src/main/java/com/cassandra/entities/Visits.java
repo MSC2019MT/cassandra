@@ -1,5 +1,7 @@
 package com.cassandra.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -25,8 +27,10 @@ public class Visits implements Serializable {
     private TableMaster tableMaster;
 
     @Column(nullable = false)
+    @JsonFormat(pattern="dd/MM/yyyy hh:mm:ss")
     private Timestamp fromDateTime;
 
+    @JsonFormat(pattern="dd/MM/yyyy hh:mm:ss")
     private Timestamp toDateTime;
 
     private String payStatus;

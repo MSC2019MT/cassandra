@@ -18,7 +18,8 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
-    private String name;
+    private String firstName;
+    private String surName;
     @Column(nullable = false)
     private String address;
     @Column(nullable = false)
@@ -65,12 +66,20 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSurName() {
+        return surName;
+    }
+
+    public void setSurName(String surName) {
+        this.surName = surName;
     }
 
     public String getAddress() {
