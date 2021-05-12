@@ -1,21 +1,21 @@
 package com.cassandra.beans;
 
-import com.cassandra.entities.Orders;
+import com.cassandra.entities.Order;
 
 import java.util.List;
 
 public class OrderBean extends BaseBean {
 
-    private Orders orders;
+    private Order order;
     private List<ItemQuantitiesBean> itemQuantitiesBeanList;
     private Long visitId;
 
-    public Orders getOrders() {
-        return orders;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrders(Orders orders) {
-        this.orders = orders;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public List<ItemQuantitiesBean> getItemQuantitiesBeanList() {

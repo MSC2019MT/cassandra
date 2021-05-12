@@ -33,14 +33,16 @@ public class Employee implements Serializable {
     private String state;
     @Column(nullable = false)
     private String country;
-    @ManyToOne
-    @JoinColumn(name = "roleId", nullable = false)
-    @NotFound(action = NotFoundAction.IGNORE)
-    private Role role;
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "restaurantId", nullable = false)
-    @NotFound(action = NotFoundAction.IGNORE)
-    private Restaurant restaurant;
+    @Column(nullable = false)
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public Long getId() {
         return id;
@@ -130,19 +132,4 @@ public class Employee implements Serializable {
         this.country = country;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
 }
