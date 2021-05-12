@@ -7,16 +7,12 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "c_visits")
-public class Visits implements Serializable {
+@Table(name = "c_visit")
+public class Visit implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "restaurantId", nullable = false)
-    private Restaurant restaurant;
 
     @ManyToOne
     @JoinColumn(name = "customerId", nullable = false)
@@ -27,10 +23,10 @@ public class Visits implements Serializable {
     private TableMaster tableMaster;
 
     @Column(nullable = false)
-    @JsonFormat(pattern="dd/MM/yyyy hh:mm:ss")
+    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private Timestamp fromDateTime;
 
-    @JsonFormat(pattern="dd/MM/yyyy hh:mm:ss")
+    @JsonFormat(pattern = "dd/MM/yyyy hh:mm:ss")
     private Timestamp toDateTime;
 
     private String payStatus;
@@ -39,16 +35,12 @@ public class Visits implements Serializable {
 
     private String ratingComment;
 
+    @ManyToOne
+    @JoinColumn(name = "employeeId", nullable = false)
+    private Employee employee;
+
     @Transient
     private String comeOrLeave;
-
-    public String getComeOrLeave() {
-        return comeOrLeave;
-    }
-
-    public void setComeOrLeave(String comeOrLeave) {
-        this.comeOrLeave = comeOrLeave;
-    }
 
     public Long getId() {
         return id;
@@ -56,14 +48,6 @@ public class Visits implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
     }
 
     public Customer getCustomer() {
@@ -120,5 +104,21 @@ public class Visits implements Serializable {
 
     public void setRatingComment(String ratingComment) {
         this.ratingComment = ratingComment;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public String getComeOrLeave() {
+        return comeOrLeave;
+    }
+
+    public void setComeOrLeave(String comeOrLeave) {
+        this.comeOrLeave = comeOrLeave;
     }
 }

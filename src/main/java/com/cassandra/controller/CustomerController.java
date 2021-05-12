@@ -56,21 +56,12 @@ public class CustomerController extends BaseController {
                 ;
     }
 
-    @DeleteMapping(value="/delete-customer/{id}", produces = "application/json")
+    @DeleteMapping(value = "/delete-customer/{id}", produces = "application/json")
     public BaseBean deleteCustomer(@PathVariable("id") Long id) throws Exception {
         BaseBean baseBean = new BaseBean();
         Optional<Customer> customerOptional = customerRepository.getCustomerById(id);
         if (customerOptional != null && !customerOptional.isEmpty()) {
-            Optional<List<Long>> visitIdListOptional = visitsRepository.getIdListByCustomerId(customerOptional.get().getId());
-            if (visitIdListOptional != null && !visitIdListOptional.isEmpty() && visitIdListOptional.get() != null && !visitIdListOptional.get().isEmpty()) {
-                Optional<List<Long>> orderIdList = visitOrderRepository.getOrderIdListByVisitIdList(visitIdListOptional.get());
-                if (orderIdList != null && !orderIdList.isEmpty() && orderIdList.get() != null && !orderIdList.get().isEmpty()) {
-                    orderItemsRepository.deleteAllByOrderIdList(orderIdList.get());
-                    ordersRepository.deleteAllByIdList(orderIdList.get());
-                }
-                visitOrderRepository.deleteAllVisitOrderByVisitsIdList(visitIdListOptional.get());
-            }
-            visitsRepository.deleteAllByCustomer(customerOptional.get());
+            visitRepository.deleteAllByCustomer(customerOptional.get());
             customerRepository.delete(customerOptional.get());
             baseBean.setStatus("success");
         } else {

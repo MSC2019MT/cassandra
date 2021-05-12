@@ -4,20 +4,17 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "c_restaurantitems")
-public class RestaurantItems implements Serializable {
+@Table(name = "c_fooditems")
+public class FoodItem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurantId", nullable = false)
-    private Restaurant restaurant;
+    @Column(nullable = false)
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "itemId", nullable = false)
-    private Items items;
+    private String description;
 
     private Float priceGross;
 
@@ -33,20 +30,20 @@ public class RestaurantItems implements Serializable {
         this.id = id;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public String getName() {
+        return name;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Items getItems() {
-        return items;
+    public String getDescription() {
+        return description;
     }
 
-    public void setItems(Items items) {
-        this.items = items;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Float getPriceGross() {

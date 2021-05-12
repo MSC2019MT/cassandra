@@ -1,7 +1,6 @@
 package com.cassandra.controller;
 
 import com.cassandra.repository.*;
-import com.cassandra.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
@@ -13,9 +12,6 @@ import java.util.Date;
 
 @ControllerAdvice
 public class BaseController {
-
-    @Autowired
-    LoginService loginService;
 
     @Autowired
     EmployeeRepository employeeRepository;
@@ -30,22 +26,13 @@ public class BaseController {
     CustomerRepository customerRepository;
 
     @Autowired
-    ItemsRepository itemsRepository;
+    FoodItemRepository foodItemRepository;
 
     @Autowired
-    RestaurantItemsRepository restaurantItemsRepository;
+    OrderRepository orderRepository;
 
     @Autowired
-    VisitsRepository visitsRepository;
-
-    @Autowired
-    OrdersRepository ordersRepository;
-
-    @Autowired
-    VisitOrderRepository visitOrderRepository;
-
-    @Autowired
-    OrderItemsRepository orderItemsRepository;
+    VisitRepository visitRepository;
 
     public String getCurrentMonth() {
         LocalDate currentdate = LocalDate.now();

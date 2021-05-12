@@ -16,29 +16,6 @@ import java.util.Optional;
 @RestController
 public class RestaurantController extends BaseController {
 
-    @PostMapping("/login-restaurant")
-    public RestuarantLoginBean restuarantLogin(RestuarantLoginBean restuarantLoginBean, HttpServletRequest request, BindingResult bindingResult) throws Exception {
-        RestuarantLoginBean restuarantLoginBeanResponse = new RestuarantLoginBean();
-        if (bindingResult != null) {
-
-        }
-        Optional<Employee> optionalEmployee = employeeRepository.getEmployeeByUsernameAndPassword(restuarantLoginBean.getUsername(), restuarantLoginBean.getPassword());
-        if (optionalEmployee != null && !optionalEmployee.isEmpty()) {
-            Employee employee = optionalEmployee.get();
-            restuarantLoginBeanResponse.setStatus("success");
-            restuarantLoginBeanResponse.setEmployee(employee);
-            restuarantLoginBeanResponse.setRestaurant(employee.getRestaurant());
-            Optional<List<TableMaster>> tableMasterList = tableMasterRepository.getTableMastersByRestaurant(employee.getRestaurant());
-            restuarantLoginBeanResponse.setTableMasterList(tableMasterList != null && !tableMasterList.isEmpty() ? tableMasterList.get() : null);
-        } else {
-            List<String> errorList = new ArrayList<>();
-            errorList.add("your credential is wrong please try with other credential.");
-            restuarantLoginBeanResponse.setStatus("error");
-            restuarantLoginBeanResponse.setErrorList(errorList);
-        }
-        return restuarantLoginBeanResponse;
-    }
-
     @PostMapping(value = "/add-restaurant/", produces = "application/json", consumes = "application/json")
     public Object addRestaurant(@RequestBody Restaurant restaurant) throws Exception {
         if (restaurant.getId() != null) {
@@ -84,19 +61,12 @@ public class RestaurantController extends BaseController {
         BaseBean baseBean = new BaseBean();
         Optional<Restaurant> restaurantOptional = restaurantRepository.getRestaurantById(id);
         if (restaurantOptional != null && !restaurantOptional.isEmpty()) {
-            Optional<List<Long>> visitIdListOptional = visitsRepository.getIdListByRestaurantId(restaurantOptional.get().getId());
-            if (visitIdListOptional != null && !visitIdListOptional.isEmpty() && visitIdListOptional.get() != null && !visitIdListOptional.get().isEmpty()) {
-                Optional<List<Long>> orderIdList = visitOrderRepository.getOrderIdListByVisitIdList(visitIdListOptional.get());
-                if (orderIdList != null && !orderIdList.isEmpty() && orderIdList.get() != null && !orderIdList.get().isEmpty()) {
-                    orderItemsRepository.deleteAllByOrderIdList(orderIdList.get());
-                    ordersRepository.deleteAllByIdList(orderIdList.get());
-                }
-                visitOrderRepository.deleteAllVisitOrderByVisitsIdList(visitIdListOptional.get());
-            }
-            visitsRepository.deleteAllByRestaurant(restaurantOptional.get());
-            restaurantItemsRepository.deleteAllByRestaurant(restaurantOptional.get());
-            tableMasterRepository.deleteAllByRestaurant(restaurantOptional.get());
-            employeeRepository.deleteAllByRestaurant(restaurantOptional.get());
+            orderRepository.deleteAll();
+            visitRepository.deleteAll();
+            customerRepository.deleteAll();
+            foodItemRepository.deleteAll();
+            tableMasterRepository.deleteAll();
+            employeeRepository.deleteAll();
             restaurantRepository.delete(restaurantOptional.get());
             baseBean.setStatus("success");
         } else {

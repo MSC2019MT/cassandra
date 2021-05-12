@@ -22,11 +22,11 @@ public class CustomerInfoController extends BaseController {
         System.out.println("test");
         String startDateTime = getCurrentMonthStartDateTimeStr();
         String endDateTime = getCurrentMonthEndDateTimeStr();
-        List<Object[]> objArrList = visitsRepository.getCustomerCurrentMonthAndRestaurantDetailsByCustomerId(customerId, startDateTime, endDateTime);
+        /*List<Object[]> objArrList = visitRepository.getCustomerCurrentMonthAndRestaurantDetailsByCustomerId(customerId, startDateTime, endDateTime);
         List<CustomerBean> customerBeanList = convertObjectListToCustomerBeanList(objArrList);
         customerDashBoardBean.setCustomerBeanList(customerBeanList);
+        customerDashBoardBean.setTotalAmount(getTotalAmountFromCustomerBeanList(customerBeanList));*/
         customerDashBoardBean.setMonthName(getCurrentMonth());
-        customerDashBoardBean.setTotalAmount(getTotalAmountFromCustomerBeanList(customerBeanList));
         return customerDashBoardBean;
     }
 

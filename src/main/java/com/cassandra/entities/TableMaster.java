@@ -14,24 +14,12 @@ public class TableMaster implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "restaurantId", nullable = false)
-    private Restaurant restaurant;
-
     @Column(nullable = false)
     private String status;
 
     private String description;
 
-    private String qrCodeDetails;
-
-    public String getQrCodeDetails() {
-        return qrCodeDetails;
-    }
-
-    public void setQrCodeDetails(String qrCodeDetails) {
-        this.qrCodeDetails = qrCodeDetails;
-    }
+    private Long qrCode;
 
     public Long getId() {
         return id;
@@ -49,14 +37,6 @@ public class TableMaster implements Serializable {
         this.name = name;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
-    }
-
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -71,5 +51,13 @@ public class TableMaster implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(Long qrCode) {
+        this.qrCode = qrCode;
     }
 }

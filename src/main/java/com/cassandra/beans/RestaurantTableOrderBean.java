@@ -10,7 +10,6 @@ public class RestaurantTableOrderBean {
 
     private TableMaster tableMaster;
     private Restaurant restaurant;
-    private List<RestaurantItemsBean> restaurantItemsBeanList;
     private Float total;
     private Customer customer;
 
@@ -36,14 +35,6 @@ public class RestaurantTableOrderBean {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
-    }
-
-    public List<RestaurantItemsBean> getRestaurantItemsBeanList() {
-        return restaurantItemsBeanList;
-    }
-
-    public void setRestaurantItemsBeanList(List<RestaurantItemsBean> restaurantItemsBeanList) {
-        this.restaurantItemsBeanList = restaurantItemsBeanList;
     }
 
     public Customer getCustomer() {

@@ -21,7 +21,4 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     public Optional<Employee> findTopByUsernameAndIdNot(String username, Long id);
 
-    public void deleteAllByRestaurant(Restaurant restaurant);
-
-
 }
